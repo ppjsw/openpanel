@@ -245,7 +245,7 @@ CREATE TABLE IF NOT EXISTS profiles
     INDEX idx_email email TYPE bloom_filter GRANULARITY 1
 )
 ENGINE = ReplacingMergeTree(last_seen_at)
-PARTITION BY toYYYYMM(created_at)
+PARTITION BY cityHash64(id) % 16
 ORDER BY (project_id, id)
 SETTINGS index_granularity = 8192
 ;
